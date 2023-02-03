@@ -1,0 +1,16 @@
+{
+  "name": "cst3145",
+  "version": "1.0.0",
+  "description": "back end server for cst3145 cw2",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "numan",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2",
+    "expressjs": "^1.0.1",
+    "mongodb": "^5.0.0"
+  }
+}
