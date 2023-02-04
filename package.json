@@ -2,7 +2,7 @@
   "name": "cst3145",
   "version": "1.0.0",
   "description": "back end server for cst3145 cw2",
-  "main": "nodemon app.js",
+  "main": "node app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node app.js"
