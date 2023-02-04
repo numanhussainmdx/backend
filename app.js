@@ -59,7 +59,7 @@ app.get("/api/:collection?/:id?", async function (req, res) {
 
 });
 
-app.put("/api/:collection?/:id?" ,async function(req, res) {
+app.put("/api/:collection?/:id?", async function (req, res) {
 
     const { collection, id } = req.params;
 
@@ -69,11 +69,11 @@ app.put("/api/:collection?/:id?" ,async function(req, res) {
 
     let coll = db.collection(collection);
     const coll_obj = req.body;
-    
+
     await coll.updateOne({ _id: mongodb_id }, { $set: coll_obj });
     res.send(coll_obj);
 
-  });
+});
 
 
 app.get("/api/find/:collection?/:key?", async function (req, res) {
@@ -81,12 +81,14 @@ app.get("/api/find/:collection?/:key?", async function (req, res) {
 
     if (!collection && !key) res.send("Filter Keys not defined");
     else if (!key) res.send("Filter Keys not defined");
-    coll = db.collection(collection);
+    else {
+        coll = db.collection(collection);
 
-    const coll_obj = await coll.find({}).toArray();
-    const filtered_coll_obj = coll_obj.filter(doc => doc.name.toLowerCase().includes(key.toLowerCase()));
+        const coll_obj = await coll.find({}).toArray();
+        const filtered_coll_obj = coll_obj.filter(doc => doc.name.toLowerCase().includes(key.toLowerCase()));
 
-    res.send(filtered_coll_obj);
+        res.send(filtered_coll_obj);
+    }
 
 });
 
