@@ -2,15 +2,20 @@
   "name": "cst3145",
   "version": "1.0.0",
   "description": "back end server for cst3145 cw2",
-  "main": "app.js",
+  "main": "nodemon app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js"
   },
   "author": "numan",
   "license": "ISC",
   "dependencies": {
+    "cors": "^2.8.5",
     "express": "^4.18.2",
     "expressjs": "^1.0.1",
-    "mongodb": "^5.0.0"
+    "fs": "^0.0.1-security",
+    "mongodb": "^5.0.0",
+    "nodemon": "^2.0.20",
+    "properties-reader": "^2.2.0"
   }
 }
