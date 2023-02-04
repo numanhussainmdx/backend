@@ -79,8 +79,10 @@ app.put("/api/:collection?/:id?", async function (req, res) {
 app.get("/api/find/:collection?/:key?", async function (req, res) {
     const { collection, key } = req.params;
 
-    if (!collection && !key) res.send("Filter Keys not defined");
-    else if (!key) res.send("Filter Keys not defined");
+    if (!collection) res.send("Filter Keys not defined");
+    else if (!key) { 
+        res.send("Filter Keys not defined"); 
+    }
     else {
         coll = db.collection(collection);
 
