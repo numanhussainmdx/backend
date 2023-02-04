@@ -1,4 +1,3 @@
-
 var express = require("express");
 
 const propertiesReader = require("properties-reader");
@@ -33,6 +32,7 @@ app.get("/", function (req, res) {
     res.send("Welcome to RestAPI <br> /api/&lt;collection name&gt;/&lt;specific id&gt;")
 });
 
+
 app.get("/api/:collection?/:id?", async function (req, res) {
     const { collection, id } = req.params;
 
@@ -46,34 +46,89 @@ app.get("/api/:collection?/:id?", async function (req, res) {
 
     }
     else {
-        
+
         const ObjectId = require('mongodb').ObjectId;
         const mongodb_id = new ObjectId(id);
 
         coll = db.collection(collection);
 
-        const coll_obj = await coll.find({_id:mongodb_id}).toArray(); 
+        const coll_obj = await coll.find({ _id: mongodb_id }).toArray();
 
         res.send(coll_obj);
     }
 
 });
 
-let nextId=1;
+app.put("/api/:collection?/:id?" ,async function(req, res) {
 
-app.post("/api/:collection?", async function(req, res){
+    const { collection, id } = req.params;
+
+    const ObjectId = require('mongodb').ObjectId;
+    const mongodb_id = new ObjectId(id);
+
+
+    let coll = db.collection(collection);
+    const coll_obj = req.body;
     
+    await coll.updateOne({ _id: mongodb_id }, { $set: coll_obj });
+    res.send(coll_obj);
+
+  });
+
+
+app.get("/api/find/:collection?/:key?", async function (req, res) {
+    const { collection, key } = req.params;
+
+    if (!collection && !key) res.send("Filter Keys not defined");
+    else if (!key) res.send("Filter Keys not defined");
+    coll = db.collection(collection);
+
+    const coll_obj = await coll.find({}).toArray();
+    const filtered_coll_obj = coll_obj.filter(doc => doc.name.toLowerCase().includes(key.toLowerCase()));
+
+    res.send(filtered_coll_obj);
+
+});
+
+app.get("/api/sort/:collection?/:key?/:order?", async function (req, res) {
+
+    const { collection, key, order } = req.params;
+    coll = db.collection(collection);
+
+
+    if (!collection && !key) res.send("Sorting not prpper");
+    else if (!key) res.send("Filter Keys not defined");
+    else if (!order) {
+        const coll_obj = await coll.find({}).sort({ [key]: 1 }).toArray();
+        res.send(coll_obj);
+    }
+    else if (order === "1") {
+        const coll_obj = await coll.find({}).sort({ [key]: 1 }).toArray();
+        res.send(coll_obj);
+    }
+    else if (order === "-1") {
+        const coll_obj = await coll.find({}).sort({ [key]: -1 }).toArray();
+        res.send(coll_obj);
+    }
+
+});
+
+
+let nextId = 1;
+
+app.post("/api/:collection?", async function (req, res) {
+
     const ObjectId = require('mongodb').ObjectId;
     const coll_obj = {
         _id: new ObjectId(),
         ...req.body,
-        id:nextId
+        id: nextId
     };
 
     const { collection } = req.params;
 
     let coll = db.collection(collection);
-    
+
     await coll.insertOne(coll_obj);
 
     res.send(coll_obj);
