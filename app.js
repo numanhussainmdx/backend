@@ -41,23 +41,26 @@ app.get("/api/:collection?/:id?", async function (req, res) {
 
         coll = db.collection(collection);
 
-        const coll_obj = await coll.find({}).toArray(); //ObjectID
+        const coll_obj = await coll.find({}).toArray();
         res.send(coll_obj);
 
-    }
-    else {
-
+    } else {
         const ObjectId = require('mongodb').ObjectId;
-        const mongodb_id = new ObjectId(id);
 
-        coll = db.collection(collection);
+        try {
+            const mongodb_id = new ObjectId(id);
+            coll = db.collection(collection);
 
-        const coll_obj = await coll.find({ _id: mongodb_id }).toArray();
+            const coll_obj = await coll.find({ _id: mongodb_id }).toArray();
 
-        res.send(coll_obj);
+            res.send(coll_obj);
+        } catch (error) {
+            res.send("Invalid Request string");
+        }
     }
-
 });
+
+
 
 app.put("/api/:collection?/:id?", async function (req, res) {
 
@@ -80,7 +83,7 @@ app.get("/api/find/:collection?/:key?", async function (req, res) {
     const { collection, key } = req.params;
 
     if (!collection) res.send("Filter Keys not defined");
-    else if (!key) { 
+    else if (collection & !key) { 
         res.send("Filter Keys not defined"); 
     }
     else {
@@ -91,8 +94,8 @@ app.get("/api/find/:collection?/:key?", async function (req, res) {
 
         res.send(filtered_coll_obj);
     }
-
 });
+
 
 app.get("/api/sort/:collection?/:key?/:order?", async function (req, res) {
 
