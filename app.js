@@ -1,4 +1,6 @@
 var express = require("express");
+var fs = require("fs");
+var morgan = require("morgan");
 
 const propertiesReader = require("properties-reader");
 var path = require("path");
@@ -33,7 +35,7 @@ app.use(express.urlencoded({ extended: true }));
 
 const error = path.join(__dirname, 'errorlogs');
 const accessLog = fs.createWriteStream(path.join(error, 'access.log'), { flags: 'a' });
-app.use(morgan('combined', { stream: accessLogStream }));
+app.use(morgan('combined', { stream: accessLog }));
 
 
 
