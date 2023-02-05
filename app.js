@@ -28,6 +28,15 @@ app.use(express.json());
 
 app.use(express.urlencoded({ extended: true }));
 
+
+
+
+const error = path.join(__dirname, 'errorlogs');
+const accessLog = fs.createWriteStream(path.join(error, 'access.log'), { flags: 'a' });
+app.use(morgan('combined', { stream: accessLogStream }));
+
+
+
 app.get("/", function (req, res) {
     res.send("Welcome to RestAPI <br> /api/&lt;collection name&gt;/&lt;specific id&gt;")
 });
