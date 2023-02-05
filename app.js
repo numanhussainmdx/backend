@@ -48,7 +48,7 @@ app.get("/api/:collection?/:id?", async function (req, res) {
         const ObjectId = require('mongodb').ObjectId;
 
         try {
-            const mongodb_id = new ObjectId(id);
+            const mongodb_id = new ObjectId(id);  
             coll = db.collection(collection);
 
             const coll_obj = await coll.find({ _id: mongodb_id }).toArray();
