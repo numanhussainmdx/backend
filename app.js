@@ -34,7 +34,7 @@ app.use(express.urlencoded({ extended: true }));
 
 
 const error = path.join(__dirname, 'errorlogs');
-const accessLog = fs.createWriteStream(path.join(error, 'access.log'), { flags: 'a' });
+const accessLog = fs.createWriteStream(path.join(error, 'log'), { flags: 'a' });
 app.use(morgan('combined', { stream: accessLog }));
 
 
