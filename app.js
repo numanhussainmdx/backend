@@ -38,6 +38,10 @@ const accessLog = fs.createWriteStream(path.join(error, 'log'), { flags: 'a' });
 app.use(morgan('combined', { stream: accessLog }));
 
 
+var staticPath = path.resolve(__dirname, "static");
+app.use("/img", express.static(staticPath));
+
+
 
 app.get("/", function (req, res) {
     res.send("Welcome to RestAPI <br> /api/&lt;collection name&gt;/&lt;specific id&gt;")
